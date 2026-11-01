@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DEV3 AI Real Estate Listings for WordPress — Documentation</title>
+<style>
+	:root { --ink:#111827; --muted:#4b5563; --line:#e5e7eb; --brand:#0f766e; --soft:#ecfdf5; --warn:#fef3c7; --bg:#ffffff; --code:#f3f4f6; }
+	@media (prefers-color-scheme: dark) { :root { --ink:#e5e7eb; --muted:#9ca3af; --line:#374151; --brand:#5eead4; --soft:#042f2e; --warn:#3b2f0b; --bg:#0b1020; --code:#1f2937; } }
+	* { box-sizing: border-box; }
+	body { margin:0; font:16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color:var(--ink); background:var(--bg); }
+	.layout { display:grid; grid-template-columns:250px 1fr; max-width:1200px; margin:0 auto; }
+	nav { position:sticky; top:0; height:100vh; overflow:auto; padding:32px 20px; border-right:1px solid var(--line); font-size:14px; }
+	nav a { display:block; color:var(--muted); text-decoration:none; padding:4px 0; }
+	nav a:hover { color:var(--brand); }
+	nav strong { display:block; margin:16px 0 4px; font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink); }
+	main { padding:40px 48px 80px; min-width:0; }
+	h1 { font-size:32px; margin:0 0 6px; } h2 { font-size:22px; margin:48px 0 10px; padding-top:8px; border-top:1px solid var(--line); } h3 { font-size:17px; margin:24px 0 6px; }
+	.lead { color:var(--muted); font-size:18px; }
+	code { background:var(--code); padding:1px 6px; border-radius:4px; font-size:.9em; }
+	pre { background:var(--code); padding:14px 16px; border-radius:8px; overflow:auto; font-size:13px; }
+	.tip { background:var(--soft); border-left:4px solid var(--brand); padding:12px 16px; border-radius:6px; margin:16px 0; }
+	.warn { background:var(--warn); border-left:4px solid #d97706; padding:12px 16px; border-radius:6px; margin:16px 0; }
+	table { border-collapse:collapse; width:100%; font-size:14px; } th, td { text-align:left; border-bottom:1px solid var(--line); padding:8px 10px; vertical-align:top; }
+	img.shot { max-width:100%; border:1px solid var(--line); border-radius:8px; margin:12px 0; }
+	@media (max-width: 820px) { .layout { grid-template-columns:1fr; } nav { position:static; height:auto; border-right:0; border-bottom:1px solid var(--line); } main { padding:24px 16px 60px; } table { display:block; overflow-x:auto; } }
+</style>
+</head>
+<body>
+<div class="layout">
+<nav>
+	<strong>Start</strong><a href="#install">Install</a><a href="#setup">First setup</a><a href="#gemini">Gemini API key</a>
+	<strong>Features</strong><a href="#properties">Properties</a><a href="#agents">Agents &amp; agencies</a><a href="#submission">Front-end submission</a><a href="#search">Search &amp; map</a><a href="#alerts">Saved searches &amp; alerts</a><a href="#favourites">Favourites &amp; compare</a><a href="#leads">Enquiries &amp; leads</a><a href="#mortgage">Mortgage calculator</a><a href="#schema">Schema</a>
+	<strong>DEV3 AI</strong><a href="#ai-describe">Description from photos</a><a href="#ai-hood">Neighbourhood highlights</a><a href="#ai-search">Plain-language search</a><a href="#ai-budget">Budget &amp; privacy</a>
+	<strong>Reference</strong><a href="#blocks">Blocks &amp; shortcodes</a><a href="#settings">Settings</a><a href="#hooks">Hooks</a><a href="#faq">FAQ</a><a href="#changelog">Changelog</a>
+</nav>
+<main>
+<h1>DEV3 AI Real Estate Listings for WordPress</h1>
+<p class="lead">Property listings for sale and rent, agents and agencies, map search, saved-search alerts, favourites, compare, a lead inbox, a mortgage calculator and RealEstateListing schema — plus optional DEV3 AI that writes descriptions from your photos.</p>
+<img class="shot" src="screenshots/01-property-search-map.png" alt="Property search with map">
+
+<h2 id="install">Install</h2>
+<ol>
+	<li>In WordPress go to <strong>Plugins → Add New → Upload Plugin</strong> and upload <code>dev3-ai-real-estate.zip</code>.</li>
+	<li>Activate it. A menu <strong>DEV3 AI Real Estate</strong> appears in wp-admin.</li>
+</ol>
+<p>Requirements: WordPress 6.0+, PHP 7.4+ (tested on 8.3). Works with block themes (e.g. Twenty Twenty-Five) and classic themes (e.g. Twenty Twenty-One).</p>
+
+<h2 id="setup">First setup</h2>
+<ol>
+	<li><strong>Settings → Pages → Create missing pages</strong> creates Property Search, Submit Property, Agent Dashboard, Saved Properties and Compare Properties, each with its block.</li>
+	<li><strong>Settings → Prices and units</strong>: currency code and symbol, separators, m² or ft².</li>
+	<li><strong>Settings → Maps</strong>: OpenStreetMap works without a key; for Google Maps paste a browser key (Maps JavaScript + Geocoding APIs) and set the default map centre.</li>
+	<li><strong>Agents</strong>: add agents and link each to a WordPress user. Linked users get the <em>Real estate agent</em> role and can use the front-end submission form and dashboard.</li>
+	<li><strong>Properties → Add property</strong>: add photos, details, location and publish.</li>
+</ol>
+<div class="tip">Property types, locations and features are managed in <strong>Settings → Vocabulary</strong>. A city typed on a property automatically becomes a location for search.</div>
+
+<h2 id="gemini">Gemini API key</h2>
+<ol>
+	<li>Open <a href="https://aistudio.google.com/app/apikey">Google AI Studio</a>, sign in and click <strong>Create API key</strong>.</li>
+	<li>In wp-admin open <strong>DEV3 AI Real Estate → API Config</strong>, paste the key and click <strong>Save</strong>. It is stored encrypted and never sent to the browser. You can also define <code>DEV3RE_GEMINI_API_KEY</code> in <code>wp-config.php</code>.</li>
+	<li>Choose models (default <code>gemini-2.5-flash</code>), set a monthly budget, and decide if visitor-facing AI (plain-language search) is on.</li>
+</ol>
+
+<h2 id="properties">Properties</h2>
+<p>Each property has: sale/rent with rent period, price (or "price on request"), prefix/suffix, beds, baths (halves allowed), parking, living area in m² or ft², lot size, year built, floor, energy class, reference, address with map pin and an option to hide the exact address, photo gallery, floor plans (image, beds, baths, area, notes), virtual tour link, video link, highlights, features, neighbourhood text and the agent. Availability can be <em>Available</em>, <em>Under offer</em>, <em>Sold</em> or <em>Rented</em>; sold and rented listings stay online with a label and are hidden from search (setting).</p>
+<img class="shot" src="screenshots/02-single-property.png" alt="Single property page">
+<p>The single page shows the gallery (swipe on phones, lightbox with keyboard support), key facts, highlights, details, features, floor plans, a click-to-load virtual tour, the map with nearby places, the neighbourhood section, the mortgage calculator, the agent card with an enquiry/viewing form and similar properties.</p>
+<p>Allowed tour hosts: Matterport, Kuula, CloudPano, Giraffe360, Momento360, Roundme, Theasys, YouTube, Vimeo and Google Maps embeds (filter <code>dev3re_tour_hosts</code>).</p>
+
+<h2 id="agents">Agents &amp; agencies</h2>
+<p>Agents have a photo, job title, contact numbers, WhatsApp, email, licence, languages, website and social links, an agency and an optional linked user. Agent and agency pages list their active properties and include a contact form. Leads for a property go to its agent (or to the site notification email when there is no agent).</p>
+
+<h2 id="submission">Front-end submission</h2>
+<p>The <em>Submit Property</em> page lets agents upload photos (JPEG, PNG, WebP up to 10 MB, drag or arrows to reorder), fill in details, drop a map pin, add floor plans and a tour, and ask DEV3 AI for a description. New listings wait for review or go live right away (<em>Settings → Front-end submission</em>). The <em>Agent Dashboard</em> lists the agent's properties with views and leads, lets them change availability, edit or delete, answer leads and edit their profile. Turn on <em>Let logged-in users become agents themselves</em> to allow self sign-up.</p>
+<img class="shot" src="screenshots/06-agent-submission-ai.png" alt="Agent submission with AI draft">
+
+<h2 id="search">Search &amp; map</h2>
+<p>The search page combines a plain-language box, buy/rent toggle, type, location, price, bedrooms and <em>More filters</em> (bathrooms, area, year built, keyword, features). Results update without reloading, the URL is shareable and the back button works. On wide screens a sticky map shows price tags; on phones a Map button switches views. Tick <em>Search as I move the map</em> to search the visible area.</p>
+<img class="shot" src="screenshots/05-mobile-search.png" alt="Mobile search" style="max-width:375px">
+
+<h2 id="alerts">Saved searches &amp; alerts</h2>
+<p>Visitors click <strong>Save search</strong> and pick daily, weekly or "as soon as listed". Guests confirm by email (double opt-in). An hourly cron sends a digest of properties added since the last email; every email has a one-click unsubscribe link. Admins see all saved searches under <strong>Saved searches</strong> and can send alerts on demand.</p>
+
+<h2 id="favourites">Favourites &amp; compare</h2>
+<p>The heart button saves a property (in the browser for guests, in the account for logged-in users; browser favourites are merged after login). The compare button adds up to 4 properties to a sticky compare bar and the <em>Compare Properties</em> page shows a side-by-side table including price per area and features.</p>
+
+<h2 id="leads">Enquiries &amp; leads</h2>
+<p>Enquiry and viewing requests are stored in the lead inbox, emailed to the agent (reply-to the visitor), copied to the admin (setting) and confirmed to the visitor with an auto-reply (setting). Forms have a consent checkbox, a honeypot and per-IP rate limits. In <strong>Leads</strong> you can filter by status and agent, add private notes, reply and export CSV.</p>
+
+<h2 id="mortgage">Mortgage calculator</h2>
+<p>Shown on every property for sale (pre-filled with its price) and available as a block. Defaults for rate, term and down payment are in Settings. Monthly payment uses the standard annuity formula; the bar shows principal versus interest.</p>
+
+<h2 id="schema">Schema</h2>
+<p>Property pages output <code>RealEstateListing</code> JSON-LD with the offer (price, currency, sale or lease, availability, agent), and the residence (address, geo, bedrooms, bathrooms, floor size, year built, amenities). Agent and agency pages output <code>RealEstateAgent</code>. Hidden addresses omit the street and coordinates. Filter: <code>dev3re_schema</code>.</p>
+
+<h2 id="ai-describe">DEV3 AI · Description from photos</h2>
+<img class="shot" src="screenshots/03-admin-ai-description-from-photos.png" alt="AI description draft">
+<p>In the property editor (and the agent submission form), add photos and optional private notes, then click <strong>Write from photos with DEV3 AI</strong>. DEV3 AI looks at up to 8 photos plus the facts and writes a title, a card summary, a 3–5 paragraph description and highlights, and suggests features from your own feature list. You see a word-level diff against the current text and can edit, accept or reject. Nothing is saved until you accept and save. <strong>Start from the facts (no AI)</strong> creates a template draft without AI.</p>
+
+<h2 id="ai-hood">DEV3 AI · Neighbourhood highlights</h2>
+<p>From the address or map pin the plugin asks OpenStreetMap (Overpass API) for schools, public transport, parks, shops, healthcare, restaurants and gyms within about 1 km (cached for 30 days). DEV3 AI writes a short factual summary and highlights based only on those places. AI text is labelled on the listing ("AI-generated summary") until you switch the label off after checking it. <strong>List nearby places (no AI)</strong> produces a plain list without AI.</p>
+
+<h2 id="ai-search">DEV3 AI · Plain-language search</h2>
+<p>Visitors can type requests like "4 bed house for sale under 1.5m with a pool". DEV3 AI turns the text into filters that must match your own types, locations and features; the result is cached for a day. When AI is off, the storefront AI switch is off, the budget is reached or the rate limit applies, the built-in parser handles numbers, prices ("500k", "1.2m", "between 200k and 350k"), beds, baths, areas, types, features and locations.</p>
+
+<h2 id="ai-budget">Budget &amp; privacy</h2>
+<ul>
+	<li><strong>API Config</strong>: monthly budget cap, AI on/off, storefront AI switch, caching and PII masking.</li>
+	<li><strong>Usage Logs</strong>: requests, tokens and estimated cost per feature.</li>
+	<li>Data sent to Google Gemini: photos, facts and notes (descriptions), the address and nearby place names (neighbourhood), the visitor's search text (search). Lead contact details are never sent.</li>
+	<li>The privacy policy helper and the WordPress personal-data exporter/eraser cover leads and saved searches.</li>
+</ul>
+
+<h2 id="blocks">Blocks &amp; shortcodes</h2>
+<table>
+	<tr><th>Block</th><th>Shortcode</th><th>Attributes</th></tr>
+	<tr><td>Property search</td><td><code>[dev3re_search]</code></td><td><code>listing_type</code> sale|rent, <code>columns</code>, <code>per_page</code>, <code>map</code> yes|no, <code>view</code> list|map</td></tr>
+	<tr><td>Property quick search</td><td><code>[dev3re_quick_search]</code></td><td><code>listing_type</code></td></tr>
+	<tr><td>Properties grid</td><td><code>[dev3re_properties]</code></td><td><code>listing_type</code>, <code>type</code>, <code>location</code> (slugs), <code>featured</code> yes|no, <code>sort</code> newest|price_asc|price_desc, <code>limit</code>, <code>columns</code></td></tr>
+	<tr><td>Mortgage calculator</td><td><code>[dev3re_mortgage]</code></td><td><code>price</code></td></tr>
+	<tr><td>Agents</td><td><code>[dev3re_agents]</code></td><td><code>limit</code></td></tr>
+	<tr><td>Submit property</td><td><code>[dev3re_submit]</code></td><td>—</td></tr>
+	<tr><td>Agent dashboard</td><td><code>[dev3re_dashboard]</code></td><td>—</td></tr>
+	<tr><td>Saved properties</td><td><code>[dev3re_favourites]</code></td><td>—</td></tr>
+	<tr><td>Compare properties</td><td><code>[dev3re_compare]</code></td><td>—</td></tr>
+</table>
+
+<h2 id="settings">Settings</h2>
+<img class="shot" src="screenshots/04-admin-dashboard.png" alt="Admin dashboard">
+<p>Pages, prices and units, maps, front-end submission, visitor features (favourites, compare, saved searches, schema, mortgage defaults, accent colour), leads and emails, DEV3 AI features and tone, vocabulary (types, features, locations) and maintenance (rebuild search index, delete data on uninstall).</p>
+
+<h2 id="hooks">Hooks</h2>
+<table>
+	<tr><th>Hook</th><th>Type</th><th>Use</th></tr>
+	<tr><td><code>dev3re_property_saved</code></td><td>action</td><td><code>( $id, $data, $context )</code> after a save through the plugin</td></tr>
+	<tr><td><code>dev3re_lead_created</code></td><td>action</td><td><code>( $id, $row )</code> after an enquiry is stored (e.g. push to a CRM)</td></tr>
+	<tr><td><code>dev3re_lead_before_insert</code></td><td>filter</td><td>Change or reject (return <code>WP_Error</code>) a lead</td></tr>
+	<tr><td><code>dev3re_email</code></td><td>filter</td><td>Edit or cancel any email: ids <code>lead_agent</code>, <code>lead_admin</code>, <code>lead_autoreply</code>, <code>pending</code>, <code>approved</code>, <code>search_confirm</code>, <code>alert</code></td></tr>
+	<tr><td><code>dev3re_schema</code></td><td>filter</td><td>Edit JSON-LD</td></tr>
+	<tr><td><code>dev3re_card_html</code></td><td>filter</td><td>Change property card markup</td></tr>
+	<tr><td><code>dev3re_search_where</code></td><td>filter</td><td>Add prepared SQL conditions to search</td></tr>
+	<tr><td><code>dev3re_price_steps</code></td><td>filter</td><td>Price options of the search selects</td></tr>
+	<tr><td><code>dev3re_tour_hosts</code></td><td>filter</td><td>Hosts allowed for tour iframes</td></tr>
+	<tr><td><code>dev3re_pre_geocode</code></td><td>filter</td><td>Short-circuit geocoding</td></tr>
+	<tr><td><code>dev3re_overpass_url</code></td><td>filter</td><td>Use your own Overpass server</td></tr>
+	<tr><td><code>dev3re_prompt_dev3re_describe</code>, <code>…_neighbourhood</code>, <code>…_nl_search</code></td><td>filter</td><td>Edit the AI prompts</td></tr>
+	<tr><td><code>dev3re_public_rate_limit</code></td><td>filter</td><td>Requests per minute per IP for public endpoints</td></tr>
+</table>
+
+<h2 id="faq">FAQ</h2>
+<h3>Does it work without AI?</h3><p>Yes, every feature. AI only adds drafts and smarter search.</p>
+<h3>Can I import from an MLS/IDX feed?</h3><p>Not in 1.0. Properties are a normal custom post type, so any importer that writes posts can be used; run <em>Settings → Maintenance → Rebuild search index</em> afterwards.</p>
+<h3>Alerts are not sent.</h3><p>Alerts run on WP-Cron every hour. If your host disables WP-Cron, add a real cron job that calls <code>wp-cron.php</code>, or click <strong>Send alerts now</strong>.</p>
+<h3>Where do agents log in?</h3><p>On the normal WordPress login; agents are sent to the Agent Dashboard page after logging in.</p>
+
+<h2 id="changelog">Changelog</h2>
+<p><strong>1.0.0</strong> — Initial release.</p>
+</main>
+</div>
+</body>
+</html>

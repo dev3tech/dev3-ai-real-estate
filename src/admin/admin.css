@@ -1,0 +1,92 @@
+/* DEV3 AI Real Estate Listings: admin screens (on top of the core UI kit). */
+
+.dev3re-root .dev3re-admin-muted { color: var(--dev3re-text-muted, #5b6475); font-size: 12.5px; }
+.dev3re-root .dev3re-admin-inline { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 0; }
+.dev3re-root .dev3re-admin-stack { display: grid; gap: 16px; }
+.dev3re-root .dev3re-admin-settings,
+.dev3re-root .dev3re-admin-editor-form { display: grid; gap: 16px; }
+.dev3re-root .dev3re-admin-scrolltabs { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; }
+
+.dev3re-root .dev3re-admin-toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; padding: 12px 16px; border-bottom: 1px solid var(--dev3re-border, #e3e6ec); }
+.dev3re-root .dev3re-admin-toolbar > * { flex: 1 1 200px; min-width: 0; margin: 0; }
+.dev3re-root .dev3re-admin-toolbar > .dev3re-ui-inline,
+.dev3re-root .dev3re-admin-toolbar > div:last-child:not(:first-child) { flex: 0 1 auto; }
+.dev3re-root .dev3re-admin-tablefoot { padding: 8px 16px; border-top: 1px solid var(--dev3re-border, #e3e6ec); }
+.dev3re-root .dev3re-admin-rowacts { display: inline-flex; gap: 4px; }
+.dev3re-root .dev3re-admin-hidelabel .dev3re-ui-check__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+.dev3re-root .dev3re-admin-prop { display: inline-flex; align-items: center; gap: 10px; min-width: 0; }
+.dev3re-root .dev3re-admin-prop img { width: 56px; height: 42px; object-fit: cover; border-radius: 6px; flex: none; background: #eef1f5; }
+.dev3re-root .dev3re-admin-prop img.is-round { width: 40px; height: 40px; border-radius: 50%; }
+.dev3re-root .dev3re-admin-prop strong { margin-right: 6px; }
+.dev3re-root .dev3re-admin-prop__ph { display: inline-block; width: 56px; height: 42px; border-radius: 6px; background: linear-gradient(135deg, #eef1f5, #dfe4eb); flex: none; }
+.dev3re-root .dev3re-admin-avatar { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: color-mix(in srgb, var(--dev3re-brand, #4f46e5) 14%, #fff); color: var(--dev3re-brand, #4f46e5); font-weight: 700; flex: none; }
+.dev3re-root .dev3re-admin-avatar.is-lg { width: 72px; height: 72px; font-size: 26px; }
+
+.dev3re-root .dev3re-admin-steps { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.dev3re-root .dev3re-admin-steps li { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid var(--dev3re-border, #e3e6ec); border-radius: 8px; margin: 0; }
+.dev3re-root .dev3re-admin-steps li.is-done { opacity: .7; }
+.dev3re-root .dev3re-admin-steps li.is-done .dev3re-admin-steps__icon { color: #047857; }
+.dev3re-root .dev3re-admin-steps__icon { display: inline-flex; color: #b45309; }
+.dev3re-root .dev3re-admin-steps__label { flex: 1 1 220px; }
+
+/* Editor layout: main column + sticky sidebar when the app is wide enough. */
+.dev3re-root .dev3re-admin-editor { display: grid; gap: 16px; container-type: inline-size; }
+.dev3re-root .dev3re-admin-editor__main,
+.dev3re-root .dev3re-admin-editor__side { display: grid; gap: 16px; align-content: start; min-width: 0; }
+@container (min-width: 960px) {
+	.dev3re-root .dev3re-admin-editor { grid-template-columns: minmax(0, 1fr) 300px; align-items: start; }
+	.dev3re-root .dev3re-admin-editor__side { position: sticky; top: 46px; }
+}
+@supports not (container-type: inline-size) {
+	@media (min-width: 1280px) {
+		.dev3re-root .dev3re-admin-editor { grid-template-columns: minmax(0, 1fr) 300px; }
+	}
+}
+.dev3re-root .dev3re-admin-airow { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
+.dev3re-root .dev3re-admin-airow > .dev3re-ui-field { flex: 0 1 200px; margin: 0; }
+.dev3re-root .dev3re-admin-list { margin: 4px 0 0 18px; padding: 0; list-style: disc; }
+.dev3re-root .dev3re-admin-checks { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 4px 16px; }
+.dev3re-root .dev3re-admin-dl { display: grid; gap: 6px; margin: 0; }
+.dev3re-root .dev3re-admin-dl > div { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; border-bottom: 1px solid var(--dev3re-border, #e3e6ec); }
+.dev3re-root .dev3re-admin-dl dt { color: var(--dev3re-text-muted, #5b6475); }
+.dev3re-root .dev3re-admin-dl dd { margin: 0; font-weight: 600; text-align: right; overflow-wrap: anywhere; }
+
+.dev3re-root .dev3re-admin-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
+.dev3re-root .dev3re-admin-gallery li { position: relative; aspect-ratio: 4 / 3; border-radius: 8px; overflow: hidden; background: #eef1f5; margin: 0; }
+.dev3re-root .dev3re-admin-gallery img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.dev3re-root .dev3re-admin-gallery__cover { position: absolute; top: 6px; left: 6px; padding: 2px 8px; border-radius: 6px; background: var(--dev3re-brand, #4f46e5); color: #fff; font-size: 11px; font-weight: 700; }
+.dev3re-root .dev3re-admin-gallery__btns { position: absolute; right: 4px; bottom: 4px; display: flex; gap: 4px; }
+.dev3re-root .dev3re-admin-gallery__btns button { width: 30px; height: 30px; padding: 0; border: 0; border-radius: 6px; background: rgba(17, 24, 39, .8); color: #fff; font-size: 15px; line-height: 1; cursor: pointer; }
+.dev3re-root .dev3re-admin-gallery__btns button:disabled { opacity: .35; cursor: default; }
+.dev3re-root .dev3re-admin-gallery__btns button:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
+.dev3re-root .dev3re-admin-dropzone { display: grid; justify-items: center; gap: 6px; width: 100%; padding: 28px 16px; border: 2px dashed #c3c8d2; border-radius: 10px; background: #fafbfc; color: var(--dev3re-text-muted, #5b6475); font: inherit; font-weight: 600; cursor: pointer; }
+.dev3re-root .dev3re-admin-dropzone:hover,
+.dev3re-root .dev3re-admin-dropzone:focus-visible { border-color: var(--dev3re-brand, #4f46e5); color: var(--dev3re-brand, #4f46e5); }
+
+.dev3re-root .dev3re-admin-map { width: 100%; height: 320px; border-radius: 8px; overflow: hidden; border: 1px solid var(--dev3re-border, #e3e6ec); background: #e8ecf0; position: relative; z-index: 0; }
+.dev3re-root .dev3re-admin-plan { display: grid; gap: 12px; padding: 12px; border: 1px solid var(--dev3re-border, #e3e6ec); border-radius: 8px; }
+.dev3re-root .dev3re-admin-plan > .dev3re-ui-btn { justify-self: start; }
+.dev3re-root .dev3re-admin-plan__img { display: flex; align-items: center; gap: 10px; }
+.dev3re-root .dev3re-admin-plan__img img { width: 80px; height: 60px; object-fit: contain; border-radius: 6px; background: #fff; border: 1px solid var(--dev3re-border, #e3e6ec); }
+
+.dev3re-root .dev3re-admin-photo { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.dev3re-root .dev3re-admin-photo img { width: 72px; height: 72px; object-fit: cover; border-radius: 10px; }
+.dev3re-root .dev3re-admin-photo img.is-round { border-radius: 50%; }
+.dev3re-root .dev3re-admin-suggest { margin: 4px 0 0; padding: 4px; list-style: none; border: 1px solid var(--dev3re-border, #e3e6ec); border-radius: 8px; background: #fff; max-height: 220px; overflow: auto; }
+.dev3re-root .dev3re-admin-suggest li { margin: 0; }
+.dev3re-root .dev3re-admin-suggest button { display: block; width: 100%; min-height: 40px; padding: 8px 10px; border: 0; background: none; text-align: left; font: inherit; cursor: pointer; border-radius: 6px; overflow-wrap: anywhere; }
+.dev3re-root .dev3re-admin-suggest button:hover,
+.dev3re-root .dev3re-admin-suggest button:focus-visible { background: #f2f3f7; }
+.dev3re-root .dev3re-admin-quote { margin: 0; padding: 12px 14px; border-left: 3px solid var(--dev3re-brand, #4f46e5); background: #f8f9fb; border-radius: 0 8px 8px 0; white-space: pre-line; overflow-wrap: anywhere; }
+
+.dev3re-root .dev3re-admin-vocab { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.dev3re-root .dev3re-admin-terms { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; padding: 0; list-style: none; }
+.dev3re-root .dev3re-admin-terms li { display: inline-flex; align-items: center; gap: 4px; margin: 0; padding: 3px 4px 3px 10px; border: 1px solid var(--dev3re-border, #e3e6ec); border-radius: 999px; background: #fafbfc; font-size: 13px; }
+.dev3re-root .dev3re-admin-terms button { width: 28px; height: 28px; padding: 0; border: 0; border-radius: 50%; background: none; color: #6b7280; cursor: pointer; font-size: 12px; }
+.dev3re-root .dev3re-admin-terms button:hover,
+.dev3re-root .dev3re-admin-terms button:focus-visible { background: #fee2e2; color: #b91c1c; }
+
+@media (min-width: 783px) {
+	.dev3re-root .dev3re-admin-prop.is-wide { min-width: 260px; }
+}
